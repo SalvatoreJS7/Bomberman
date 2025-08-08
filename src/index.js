@@ -328,7 +328,6 @@ const createBomb = () => {
                 bomb.destroy({children: true});
                 arrStone[bomb.bombIndex] = undefined;
                 isBomb = false;
-                explosionActive = true;
                 bombAmount += 1;
             }, 2000)
         }
@@ -432,10 +431,6 @@ const enemyDestroyPlayer = (enemy) => {
         console.log('hit');
         playerOff();
     }
-}
-
-const playerBlink = () => {
-    
 }
 
 const playerOff = () => {
