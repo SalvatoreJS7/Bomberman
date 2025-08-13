@@ -4,7 +4,7 @@ import { sizeRect } from './field.js';
 import { bombermen, handlePlayerDestroy } from './bomberman.js';
 import { arrStone } from './stone.js';
 import { handleWallDestroy } from './wall.js';
-import { handleEnemyDestroy } from './enemy.js';
+import { checkedEnemy, handleEnemyDestroy } from './enemy.js';
 import { heandleTeleportExplosion } from './bonuses.js';
 
 const bombSprite = await PIXI.Assets.load('/assets/sprites/bomb.png');
@@ -18,7 +18,7 @@ export const createBomb = () => {
     let isBomb = false;
 
     document.addEventListener('keydown', (e) => {
-        if(e.key === ' ' && isBomb === false) {
+        if(e.key === ' ' && isBomb === false && checkedEnemy()) {
             const bombContainer = new PIXI.Container();
             const bomb = new PIXI.Sprite(bombSprite); // make bomb local variable
             bomb.width = sizeRect * 0.6;

@@ -430,3 +430,22 @@ const enemyDestroyPlayer = (enemy) => {
     }
 }
 
+export const checkedEnemy = () => {
+    for(let i = 0; i < enemies.length; i++) {
+        if(bombermen.currentIndex % widthField !== widthField - 1 && bombermen.currentIndex + 1 === enemies[i].index) {
+            return false;
+        }
+        if(bombermen.currentIndex % widthField !== 0 && bombermen.currentIndex - 1 === enemies[i].index) {
+            return false;
+        }
+        if(bombermen.currentIndex + widthField === enemies[i].index){
+            return false;
+        }
+        if(bombermen.currentIndex - widthField === enemies[i].index) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
