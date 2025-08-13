@@ -5,9 +5,12 @@ import { bombermen, handlePlayerDestroy } from './bomberman.js';
 import { arrStone } from './stone.js';
 import { handleWallDestroy } from './wall.js';
 import { handleEnemyDestroy } from './enemy.js';
+import { heandleTeleportExplosion } from './bonuses.js';
 
 const bombSprite = await PIXI.Assets.load('/assets/sprites/bomb.png');
 const explosionSprite = await PIXI.Assets.load('/assets/sprites/explosion2.png');
+
+export let bombs = [];
 
 
 export const createBomb = () => {
@@ -30,7 +33,7 @@ export const createBomb = () => {
             
             //custom atributes
             bomb.bombIndex = bombermen.currentIndex;
-            arrStone[bomb.bombIndex] = bomb;
+            bombs[bomb.bombIndex] = bomb;
 
             bombContainer.addChild(bomb);
             app.stage.addChild(bombContainer);
@@ -40,7 +43,7 @@ export const createBomb = () => {
                 createExplosionY(bomb);
                 handleBombExplosion(bomb);
                 bomb.destroy({children: true});
-                arrStone[bomb.bombIndex] = undefined;
+                bombs[bomb.bombIndex] = undefined;
                 isBomb = false;
                 bombState.bombAmount += 1;
             }, 2000)
@@ -50,10 +53,11 @@ export const createBomb = () => {
 }
 
 const handleBombExplosion = (bomb) => {
-    handleWallDestroy(bomb);
+    heandleTeleportExplosion(bomb);
     handlePlayerDestroy(bomb);
     handleEnemyDestroy(bomb);
-    // 4.destroy bonus
+    handleWallDestroy(bomb);
+     // 4.destroy bonus
 }   
 
 const createExplosionX = (bomb) => {

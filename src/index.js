@@ -1,9 +1,9 @@
 import * as PIXI from 'pixi.js';
 import { createField} from './field';
-import { createBombermen, moveBombermen, playerLives } from './bomberman';
-import { createWall } from './wall';
+import { bombermen, clearBombermen, createBombermen, moveBombermen, playerLives } from './bomberman';
+import { clearWall, createWall } from './wall';
 import { createStone } from './stone';
-import { createBonus } from './bonuses';
+import { clearBonus, createBonus } from './bonuses';
 import { createBomb } from './bomb';
 import { createEnemy } from './enemy';
 import { createDecor } from './decor';
@@ -28,14 +28,34 @@ export const level1 = [
   '', 'stone', '', 'stone', '', 'stone', '', 'stone', '', 'stone', '', 'stone', '',
   '', '', '', '', 'wall', '', '', '', 'wall', '', '', '', '',
   '', 'stone', '', 'stone', '', 'stone', 'wall', 'stone', '', 'stone', 'wall', 'stone', '',
-  '', 'wall', 'wall', '', 'enemy', '', 'wall', 'wall', '', '', 'wall', '', 'enemy'
+  'wall', 'wall', 'wall', '', 'enemy', '', 'wall', 'wall', '', '', 'wall', '', 'enemy'
+];
+
+export const level2 = [
+  '', '', '', 'wall', 'wall', 'wall', 'wall', '', '', '', '', '', 'enemy',
+  '', 'stone', '', 'stone', '', 'stone', 'wall', 'stone', 'wall', 'stone', 'wall', 'stone', '',
+  '', 'wall', 'wall', 'wall', 'wall', '', '', '', '', '', '', '', 'speedster',
+  'wall', 'stone', 'wall', 'stone', '', 'stone', 'wall', 'stone', '', 'stone', 'wall', 'stone', 'wall',
+  'wall', '', 'wall', '', '', 'wall', 'wall', 'wall', 'wall', '', '', '', '',
+  'wall', 'stone', '', 'stone', '', 'stone', '', 'stone', '', 'stone', '', 'stone', '',
+  '', '', '', '', 'wall', '', '', '', 'wall', '', 'ghost', '', '',
+  '', 'stone', '', 'stone', '', 'stone', 'wall', 'stone', 'wall', 'stone', 'wall', 'stone', '',
+  'wall', 'wall', 'wall', '', 'enemy', '', '', '', '', '', '', '', 'enemy'
 ];
 
 export const bonusMapping = {
     explosionPlus : 'explosion+',
     bombPlus : 'bomb+',
+    teleport: 'teleport',
 }
-const bonusForLevel1 = [bonusMapping.explosionPlus, bonusMapping.bombPlus];
+const bonusForLevel1 = [bonusMapping.explosionPlus, bonusMapping.bombPlus, bonusMapping.teleport];
+const bonusForLevel2 = [bonusMapping.explosionPlus, bonusMapping.bombPlus, bonusMapping.teleport];
+
+export const gameState = {
+    teleportActive: false,
+    startLevel2: false,
+}
+// console.log(gameState.teleportActive)
 
 export const bombState = {
     bombAmount: 1,
@@ -50,17 +70,42 @@ const prepareLevelScene = (levelTemplate, bonusTemplate) => {
     createBonus(levelTemplate, bonusTemplate);
 }
 
+const startNewLevel2 = () => {
+    clearScene();
+    prepareLevelScene(level2, bonusForLevel2);
+    
+}
+
 const createScene = () => {
     createField();
     createBombermen();
-    createBomb();
     moveBombermen();
     createDecor();
     playerLives();
     prepareLevelScene(level1, bonusForLevel1);
+    createBomb();
 }
 
 createScene();
+
+const gameLoop = () => {
+    if (gameState.startLevel2) {
+        startNewLevel2();
+        gameState.startLevel2 = false;
+        gameState.teleportActive = false;
+        console.log(gameState.teleportActive)
+    }
+
+    requestAnimationFrame(gameLoop);
+}
+
+gameLoop();
+
+const clearScene = () => {
+    clearBombermen();
+    clearWall();
+    clearBonus();
+}
 
 
 

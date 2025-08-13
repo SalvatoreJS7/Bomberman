@@ -4,6 +4,7 @@ import { sizeRect, widthField, heightField, leftBorder, topBorder, rightBorder, 
 import { arrWall } from './wall.js';
 import { arrStone } from './stone.js';
 import { getBonus } from './bonuses.js';
+import { bombs } from './bomb.js';
 
 export let bombermen;
 let livesAmount = 5;
@@ -41,19 +42,19 @@ export const moveBombermen = () => {
     let move = '';
    
     document.addEventListener('keydown', (e) => {
-        if(e.key === 'ArrowRight' && bombermen.position.x < rightBorder && !arrWall[bombermen.currentIndex + 1] && !arrStone[bombermen.currentIndex + 1] && !isMoving) { 
+        if(e.key === 'ArrowRight' && bombermen.position.x < rightBorder && !arrWall[bombermen.currentIndex + 1] && !arrStone[bombermen.currentIndex + 1] && !bombs[bombermen.currentIndex + 1] && !isMoving) { 
             isMoving = true;
             move = 'right';
         } 
-        if(e.key === 'ArrowLeft' && bombermen.position.x > leftBorder && !arrWall[bombermen.currentIndex - 1] && !arrStone[bombermen.currentIndex - 1] && !isMoving) {
+        if(e.key === 'ArrowLeft' && bombermen.position.x > leftBorder && !arrWall[bombermen.currentIndex - 1] && !arrStone[bombermen.currentIndex - 1] && !bombs[bombermen.currentIndex - 1] && !isMoving) {
             isMoving = true;
             move = 'left';
         }
-        if(e.key === 'ArrowUp' && bombermen.position.y > topBorder && !arrWall[bombermen.currentIndex - widthField] && !arrStone[bombermen.currentIndex - widthField] && !isMoving) {
+        if(e.key === 'ArrowUp' && bombermen.position.y > topBorder && !arrWall[bombermen.currentIndex - widthField] && !arrStone[bombermen.currentIndex - widthField] && !bombs[bombermen.currentIndex - widthField] && !isMoving) {
             isMoving = true;
             move = 'up';
         }
-        if(e.key === 'ArrowDown' && bombermen.position.y < bottomBorder && !arrWall[bombermen.currentIndex + widthField] && !arrStone[bombermen.currentIndex + widthField] && !isMoving) {
+        if(e.key === 'ArrowDown' && bombermen.position.y < bottomBorder && !arrWall[bombermen.currentIndex + widthField] && !arrStone[bombermen.currentIndex + widthField] && !bombs[bombermen.currentIndex + widthField] && !isMoving) {
             isMoving = true;
             move = 'down';       
         }
@@ -181,4 +182,10 @@ export const playerLives = () => {
 
     app.stage.addChild(livesContainer);
 
+}
+
+export const clearBombermen = () => {
+    bombermen.x = (app.screen.width - widthField * sizeRect) / 2;
+    bombermen.y = (app.screen.height - heightField * sizeRect) / 2;
+    bombermen.currentIndex = 0;
 }

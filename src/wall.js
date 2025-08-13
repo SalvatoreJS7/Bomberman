@@ -7,13 +7,14 @@ const textureWall = await PIXI.Assets.load('/assets/textures/stone2.png');
 const destroyWall = await PIXI.Assets.load('/assets/sprites/destroyWall.png');
 
 export let arrWall = [];
+let wallContainer;
 
 export const createWall = (level) => {
 
     let wallX = 0;
     let wallY = 0;
 
-    const wallContainer = new PIXI.Container();
+    wallContainer = new PIXI.Container();
     for (let i = 0; i < fieldSize; i++) {
 
         if(wallX === widthField) {
@@ -46,17 +47,20 @@ export const createWall = (level) => {
 }
 
 export const handleWallDestroy = (bomb) => {
-    for(let i = 1; i <= bombState.bombRadius; i++) {
-        if (bomb.bombIndex % widthField !== widthField - 1 && arrWall[bomb.bombIndex + i] || arrStone[bomb.bombIndex + i]) {
+    for (let i = 1; i <= bombState.bombRadius; i++) {
+        if (Math.floor((bomb.bombIndex + i) / widthField) !== Math.floor(bomb.bombIndex / widthField)) break; 
+
+        if (arrWall[bomb.bombIndex + i] || arrStone[bomb.bombIndex + i]) {
             wallDestroy(bomb.bombIndex + i);
             break;
         }
-        
     }
-    
-    for(let i = 1; i <= bombState.bombRadius; i++) {
-        if(bomb.bombIndex % widthField !== 0 && arrWall[bomb.bombIndex - i] || arrStone[bomb.bombIndex - i]) {
-            wallDestroy(bomb.bombIndex - i)
+
+    for (let i = 1; i <= bombState.bombRadius; i++) {
+        if (Math.floor((bomb.bombIndex - i) / widthField) !== Math.floor(bomb.bombIndex / widthField)) break; 
+
+        if (arrWall[bomb.bombIndex - i] || arrStone[bomb.bombIndex - i]) {
+            wallDestroy(bomb.bombIndex - i);
             break;
         }
     }
@@ -101,4 +105,11 @@ const wallDestroy = (index) => {
     wallDestroyContainer.y = (app.screen.height - heightField * sizeRect) / 2;
     wallDestroyContainer.zIndex = 2;
     app.stage.addChild(wallDestroyContainer);
+}
+
+export const clearWall = () => {
+    wallContainer.removeChildren().forEach((wall) => {
+        wall.destroy({children: true})
+    })
+    arrWall.length = 0;
 }
