@@ -28,7 +28,7 @@ export const level1 = [
   '', 'stone', '', 'stone', '', 'stone', '', 'stone', '', 'stone', '', 'stone', '',
   '', '', '', '', 'wall', '', '', '', 'wall', '', '', '', '',
   '', 'stone', '', 'stone', '', 'stone', 'wall', 'stone', '', 'stone', 'wall', 'stone', '',
-  'wall', 'wall', 'wall', '', 'enemy', '', 'wall', 'wall', '', '', 'wall', '', 'enemy'
+  'wall', 'wall', 'wall', '', 'enemy', '', 'wall', 'wall', '', '', 'wall', 'wall', 'enemy'
 ];
 
 export const level2 = [

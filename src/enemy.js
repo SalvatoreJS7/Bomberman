@@ -92,21 +92,28 @@ export const createSpeedstersFromTeleport = (index) => {
 }
 
 const moveEnemy = (enemy, speed) => {
-    let moveUp = true;
+    let moveUp = false;
     let moveDown = false;
     let moveLeft = false;
     let moveRight = false;
 
-    let moveState = [() => moveUp = true, () => moveDown = true,() => moveLeft = true, () => moveRight = true];
+    if(!arrWall[enemy.index + 1] && !arrStone[enemy.index + 1] && enemy.index % widthField !== widthField - 1) {
+        moveRight = true;
+    }
+    else if(!arrWall[enemy.index - 1] && !arrStone[enemy.index - 1] && enemy.index % widthField !== 0){
+        moveLeft = true;
+    }
+    else if(!arrWall[enemy.index - widthField] && !arrStone[enemy.index - widthField] && enemy.index - widthField > 0) {
+        moveUp = true;
+    }
+    else if(!arrWall[enemy.index + widthField] && !arrStone[enemy.index + widthField] && enemy.index + widthField < fieldSize){
+        moveDown = true;
+    }
 
     let moveValue = 0;
-    // let speed = 1;
+    
 
     const enemyTick = () => {
-        if(!moveDown && !moveLeft && !moveRight && !moveUp) {
-            moveUp = moveDown = moveLeft = moveRight = false;
-            moveState[getRandomInt(moveState.length - 1)]();
-        }
 
     if(moveUp) {
             if(arrWall[enemy.index - widthField] || arrStone[enemy.index - widthField] || bombs[enemy.index - widthField] || enemy.index - widthField < 0) {
@@ -221,10 +228,23 @@ const moveEnemy = (enemy, speed) => {
 }
 
 const moveGhost = (enemy, speed) => {
-    let moveUp = true;
+    let moveUp = false;
     let moveDown = false;
     let moveLeft = false;
     let moveRight = false;
+
+    if(!arrWall[enemy.index + 1] && !arrStone[enemy.index + 1] && enemy.index % widthField !== widthField - 1) {
+        moveRight = true;
+    }
+    else if(!arrWall[enemy.index - 1] && !arrStone[enemy.index - 1] && enemy.index % widthField !== 0){
+        moveLeft = true;
+    }
+    else if(!arrWall[enemy.index - widthField] && !arrStone[enemy.index - widthField] && enemy.index - widthField > 0) {
+        moveUp = true;
+    }
+    else if(!arrWall[enemy.index + widthField] && !arrStone[enemy.index + widthField] && enemy.index + widthField < fieldSize){
+        moveDown = true;
+    }
 
     let moveValue = 0;
 
