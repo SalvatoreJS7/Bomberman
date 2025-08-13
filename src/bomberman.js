@@ -111,21 +111,50 @@ export const moveBombermen = () => {
 }
 
 export const handlePlayerDestroy = (bomb) => {
+    // for(let i = 1; i <= bombState.bombRadius; i++) {
+    //     if (bomb.bombIndex % widthField !== widthField - 1 && bombermen.currentIndex === bomb.bombIndex + i && player) {
+    //         playerOff();
+    //     }
+    //     if(bomb.bombIndex % widthField !== 0 && bombermen.currentIndex === bomb.bombIndex - i && player) {
+    //         playerOff();
+    //     }
+    //     if(bombermen.currentIndex === bomb.bombIndex + widthField * i && player) {
+    //         playerOff();
+    //     }
+    //     if(bombermen.currentIndex === bomb.bombIndex - widthField * i && player) {
+    //         playerOff();
+    //     }
+    // }
+
     for(let i = 1; i <= bombState.bombRadius; i++) {
-        if (bomb.bombIndex % widthField !== widthField - 1 && bombermen.currentIndex === bomb.bombIndex + i && player) {
+        if (Math.floor((bomb.bombIndex + i) / widthField) !== Math.floor(bomb.bombIndex / widthField) || arrWall[bomb.bombIndex + i] || arrStone[bomb.bombIndex + i]) break; 
+
+        if (bombermen.currentIndex === bomb.bombIndex + i && player) {
             playerOff();
         }
-        if(bomb.bombIndex % widthField !== 0 && bombermen.currentIndex === bomb.bombIndex - i && player) {
+    }
+    for(let i = 1; i <= bombState.bombRadius; i++) {
+        if (Math.floor((bomb.bombIndex - i) / widthField) !== Math.floor(bomb.bombIndex / widthField) || arrWall[bomb.bombIndex - i] || arrStone[bomb.bombIndex - i]) break;
+
+        if(bombermen.currentIndex === bomb.bombIndex - i && player) {
             playerOff();
         }
+    }
+    for(let i = 1; i <= bombState.bombRadius; i++){
+        if (arrWall[bomb.bombIndex + widthField * i] || arrStone[bomb.bombIndex + widthField * i]) break;
+
         if(bombermen.currentIndex === bomb.bombIndex + widthField * i && player) {
             playerOff();
         }
+    }
+    for(let i = 1; i <= bombState.bombRadius; i++){
+        if (arrWall[bomb.bombIndex - widthField * i] || arrStone[bomb.bombIndex - widthField * i]) break;
+
         if(bombermen.currentIndex === bomb.bombIndex - widthField * i && player) {
             playerOff();
         }
-        
     }
+    
     
     if(bombermen.currentIndex === bomb.bombIndex && player){
         playerOff();

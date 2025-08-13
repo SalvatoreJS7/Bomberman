@@ -368,25 +368,29 @@ export const handleEnemyDestroy = (bomb) => {
 
     for (let i = 0; i < enemies.length; i++) {
         for(let j = 1; j <= bombState.bombRadius; j++) {
-            if (Math.floor((bomb.bombIndex + j) / widthField) !== Math.floor(bomb.bombIndex / widthField)) break; 
+            if (Math.floor((bomb.bombIndex + j) / widthField) !== Math.floor(bomb.bombIndex / widthField) || arrWall[bomb.bombIndex + j] || arrStone[bomb.bombIndex + j]) break; 
 
             if (enemies[i].index === bomb.bombIndex + j) {
                 toRemove.push(enemies[i]);
             }
         }
         for(let j = 1; j <= bombState.bombRadius; j++) {
-            if (Math.floor((bomb.bombIndex - j) / widthField) !== Math.floor(bomb.bombIndex / widthField)) break; 
+            if (Math.floor((bomb.bombIndex - j) / widthField) !== Math.floor(bomb.bombIndex / widthField) || arrWall[bomb.bombIndex - j] || arrStone[bomb.bombIndex - j]) break; 
 
             if(enemies[i].index === bomb.bombIndex - j) {
                 toRemove.push(enemies[i]);
             }
         }
         for(let j = 1; j <= bombState.bombRadius; j++) {
+            if (arrWall[bomb.bombIndex + widthField * j] || arrStone[bomb.bombIndex + widthField * j]) break;
+
             if(enemies[i].index === bomb.bombIndex + widthField * j) {
                 toRemove.push(enemies[i]);
             }
         }
-        for(let j = 1; j <= bombState.bombRadius; j++) {    
+        for(let j = 1; j <= bombState.bombRadius; j++) {  
+            if (arrWall[bomb.bombIndex - widthField * j] || arrStone[bomb.bombIndex - widthField * j]) break;
+            
             if(enemies[i].index === bomb.bombIndex - widthField * j) {
                 toRemove.push(enemies[i]);
             }
