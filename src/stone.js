@@ -4,6 +4,7 @@ import { sizeRect, widthField, heightField, fieldSize } from './field.js';
 
 const textureStone = await PIXI.Assets.load('/assets/sprites/stone3.jpg');
 
+let stoneContainer;
 export let arrStone = [];
 
 export const createStone = (level) => {
@@ -11,7 +12,7 @@ export const createStone = (level) => {
     let stoneX = 0;
     let stoneY = 0;
 
-    const stoneContainer = new PIXI.Container();
+    stoneContainer = new PIXI.Container();
      for(let i = 0; i < fieldSize; i++) {
 
         if(stoneX === widthField) {
@@ -38,5 +39,10 @@ export const createStone = (level) => {
     stoneContainer.zIndex = 2;
     app.stage.addChild(stoneContainer);
 
-} 
+}
+
+export const clearStone = () => {
+    stoneContainer.destroy({children: true});
+    arrStone.length = 0;
+}
 

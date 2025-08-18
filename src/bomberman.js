@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js';
-import { app, bombState } from './index.js';
+import { app, bombState, gameState } from './index.js';
 import { sizeRect, widthField, heightField, leftBorder, topBorder, rightBorder, bottomBorder } from './field.js';
 import { arrWall } from './wall.js';
 import { arrStone } from './stone.js';
@@ -7,16 +7,16 @@ import { getBonus } from './bonuses.js';
 import { bombs } from './bomb.js';
 
 export let bombermen;
-let livesAmount = 5;
-let livesText;
+export let livesText;
 export let player = true;
+let bombermenContainer;
 
 const spriteBombermen = await PIXI.Assets.load('/assets/sprites/bomberman2.png');
 const livesSprite = await PIXI.Assets.load('assets/sprites/lives.png');
 
 export const createBombermen = () => {
 
-    const bombermenContainer = new PIXI.Container();
+    bombermenContainer = new PIXI.Container();
 
     bombermen = new PIXI.Sprite(spriteBombermen);
     bombermen.width = sizeRect;
@@ -42,6 +42,8 @@ export const moveBombermen = () => {
     let move = '';
    
     document.addEventListener('keydown', (e) => {
+        if(bombermen.destroyed) return;
+        
         if(e.key === 'ArrowRight' && bombermen.position.x < rightBorder && !arrWall[bombermen.currentIndex + 1] && !arrStone[bombermen.currentIndex + 1] && !bombs[bombermen.currentIndex + 1] && !isMoving) { 
             isMoving = true;
             move = 'right';
@@ -166,8 +168,8 @@ export const playerOff = () => {
     player = false;
     bombermen.alpha = 0.5;
     let blink;
-    livesAmount -= 1;
-    livesText.text = `= ${livesAmount}`;
+    gameState.livesAmount -= 1;
+    livesText.text = `= ${gameState.livesAmount}`;
     
     setTimeout(() => {
         blink = setInterval(() => {
@@ -194,7 +196,7 @@ export const playerLives = () => {
     livesContainer.addChild(lives);
 
     livesText = new PIXI.Text({
-        text: `= ${livesAmount}`,
+        text: `= ${gameState.livesAmount}`,
         style: {
             fontFamily: 'Arial',
             fontSize: 100,
@@ -213,8 +215,12 @@ export const playerLives = () => {
 
 }
 
-export const clearBombermen = () => {
+export const startBombermen = () => {
     bombermen.x = (app.screen.width - widthField * sizeRect) / 2;
     bombermen.y = (app.screen.height - heightField * sizeRect) / 2;
     bombermen.currentIndex = 0;
+}
+
+export const clearBombermen = () => {
+    bombermenContainer.destroy({children: true});
 }

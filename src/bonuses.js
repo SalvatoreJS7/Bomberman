@@ -3,15 +3,18 @@ import { app, bonusMapping, bombState, gameState } from './index.js';
 import { sizeRect, widthField, heightField } from './field.js';
 import { createSpeedstersFromTeleport } from './enemy.js';
 import { arrWall } from './wall.js';
+import { livesText } from './bomberman.js';
 
 
 const bonusExplosionSprite = await PIXI.Assets.load('/assets/sprites/bonusExplosion.png');
 const bonusBombSprite = await PIXI.Assets.load('/assets/sprites/bonusBomb.png');
 const teleportSprite = await PIXI.Assets.load('/assets/sprites/teleport.png');
+const hpSprite = await PIXI.Assets.load('/assets/sprites/lives.png');
 
 let bonusContainer;
 let bonusesExplosion = [];
 let bonusesBomb = [];
+let bonusesHp = [];
 let teleports = [];
 let teleportIndex = 0;
 
@@ -19,6 +22,7 @@ export const createBonus = (level, bonus) => {
     bonusContainer = new PIXI.Container();
     let bonusExplosionIndex = 0;
     let bonusBombIndex = 0;
+    let hpIndex = 0;
     
 
     const placeForBonus = [];
@@ -68,6 +72,18 @@ export const createBonus = (level, bonus) => {
             bonusContainer.addChild(teleport);
             placeForBonus.splice(placeForBonus.indexOf(teleportIndex), 1);
         }
+
+        if(bonus[i] === bonusMapping.hp) {
+            hpIndex = placeForBonus[getRandomInt(placeForBonus.length - 1)];
+            const hp = new PIXI.Sprite({texture: hpSprite});
+            hp.width = sizeRect;
+            hp.height = sizeRect;
+            hp.x = hpIndex % widthField * sizeRect;
+            hp.y = (Math.trunc(hpIndex / widthField)) * sizeRect;
+            bonusesHp[hpIndex] = hp;
+            bonusContainer.addChild(hp);
+            placeForBonus.splice(placeForBonus.indexOf(hpIndex), 1);
+        }
     }
 
     bonusContainer.x = (app.screen.width - widthField * sizeRect) / 2;
@@ -80,6 +96,7 @@ export const createBonus = (level, bonus) => {
 export const getBonus = (bombermen) => {
     getBonusExplosion(bombermen);
     getBonusBomb(bombermen);
+    getBonusHp(bombermen);
     getTeleport(bombermen);
 }
 
@@ -103,12 +120,22 @@ export const getBonusBomb = (bombermen) => {
     }
 }
 
+export const getBonusHp = (bombermen) => {
+    if(bonusesHp[bombermen.currentIndex]) {
+        bonusesHp[bombermen.currentIndex].destroy({children: true});
+        bonusesHp[bombermen.currentIndex] = undefined;
+        gameState.livesAmount += 1;
+        livesText.text = `= ${gameState.livesAmount}`;
+    }
+}
+
 export const getTeleport = (bombermen) => {
     if(teleports[bombermen.currentIndex] && gameState.teleportActive) {
         console.log('New level start');
         teleports[bombermen.currentIndex].destroy({children: true})
         teleports[bombermen.currentIndex] = undefined;
         gameState.startLevel2 = true;
+        gameState.level += 1;
     }
 }
 
@@ -145,5 +172,6 @@ export const clearBonus = () => {
     bonusContainer.removeChildren().forEach((bonus) => {
         bonus.destroy({children: true})
     })
+    teleports.length = 0;
 }
 

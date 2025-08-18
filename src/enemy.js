@@ -469,3 +469,11 @@ export const checkedEnemy = () => {
     return true;
 }
 
+export const clearEnemy = () => {
+    enemyContainer.removeChildren().forEach((enemy) => {
+        enemy.destroy({children: true});
+        app.ticker.remove(enemy.tick);
+    })
+    enemies.length = 0;
+}
+

@@ -10,13 +10,14 @@ export let rightBorder;
 export let topBorder;
 export let bottomBorder;
 
-let fieldX = 0;
-let fieldY = 0;
 let fieldContainer;
 
 const textureGrass = await PIXI.Assets.load('/assets/textures/grass.avif');
 
 export const createField = () => {
+
+    let fieldX = 0;
+    let fieldY = 0;
 
     fieldContainer = new PIXI.Container();
 
@@ -50,4 +51,11 @@ export const createField = () => {
     rightBorder = leftBorder + (widthField * sizeRect) - sizeRect;
     bottomBorder = topBorder + (heightField * sizeRect) - sizeRect;
 
+}
+
+export const clearField = () => {
+     fieldContainer.removeChildren().forEach((field) => {
+            field.destroy({children: true})
+        })
+       
 }

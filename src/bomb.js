@@ -18,6 +18,7 @@ export const createBomb = () => {
     let isBomb = false;
 
     document.addEventListener('keydown', (e) => {
+        if (bombermen.destroyed) return;
         if(e.key === ' ' && isBomb === false && checkedEnemy()) {
             const bombContainer = new PIXI.Container();
             const bomb = new PIXI.Sprite(bombSprite); // make bomb local variable
