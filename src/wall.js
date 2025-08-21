@@ -1,7 +1,8 @@
 import * as PIXI from 'pixi.js';
-import { app, bombState } from './index.js';
+import { app, bombState, gameState } from './index.js';
 import { sizeRect, widthField, heightField, fieldSize } from './field.js';
 import { arrStone } from './stone.js';
+import { scoreText } from './score.js';
 
 const textureWall = await PIXI.Assets.load('/assets/textures/stone2.png');
 const destroyWall = await PIXI.Assets.load('/assets/sprites/destroyWall.png');
@@ -86,6 +87,8 @@ const wallDestroy = (index) => {
 
     arrWall[index].destroy({children: true});
     arrWall[index] = undefined;
+    gameState.score += 100;
+    scoreText.text = `Score: ${gameState.score}`;
     //add animation
     const wallDestroyContainer = new PIXI.Container();
      

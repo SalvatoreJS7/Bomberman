@@ -1,6 +1,7 @@
 import * as PIXI from 'pixi.js';
-import { app, bombState, createRestartScene } from './index.js';
+import { app, bombState, createRestartScene, gameState } from './index.js';
 import { sizeRect, widthField, heightField, fieldSize } from './field.js';
+import { livesText } from './bomberman.js';
 
 let gameOverContainer;
 

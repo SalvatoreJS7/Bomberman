@@ -5,7 +5,7 @@ import { bombermen, handlePlayerDestroy } from './bomberman.js';
 import { arrStone } from './stone.js';
 import { handleWallDestroy } from './wall.js';
 import { checkedEnemy, handleEnemyDestroy } from './enemy.js';
-import { heandleTeleportExplosion } from './bonuses.js';
+import { handleBonusDestroy, heandleTeleportExplosion } from './bonuses.js';
 
 const bombSprite = await PIXI.Assets.load('/assets/sprites/bomb.png');
 const explosionSprite = await PIXI.Assets.load('/assets/sprites/explosion2.png');
@@ -55,10 +55,11 @@ export const createBomb = () => {
 
 const handleBombExplosion = (bomb) => {
     heandleTeleportExplosion(bomb);
+    handleBonusDestroy(bomb);
     handlePlayerDestroy(bomb);
     handleEnemyDestroy(bomb);
     handleWallDestroy(bomb);
-     // 4.destroy bonus
+    
 }   
 
 const createExplosionX = (bomb) => {

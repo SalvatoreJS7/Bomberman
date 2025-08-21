@@ -8,6 +8,7 @@ import { createBomb } from './bomb';
 import { clearEnemy, createEnemy } from './enemy';
 import { createDecor } from './decor';
 import { gameOverActive } from './gameover';
+import { addScore, destroyLeaderBoard, leaderBoard, scoreRender, scoreText } from './score';
 
 export const app = new PIXI.Application();
 await app.init({
@@ -71,6 +72,7 @@ export const gameState = {
     startLevel2: false,
     livesAmount: 5,
     level: 1,
+    score: 0,
 }
 
 export const bombState = {
@@ -105,6 +107,8 @@ const createScene = () => {
     playerLives();
     prepareLevelScene(level1, bonusForLevel1);
     createBomb();
+    scoreRender();
+    leaderBoard();
 }
 
 createScene();
@@ -142,17 +146,22 @@ const gameOver = () => {
     clearEnemy();
     clearField();
     gameOverActive();
+    addScore();
+    destroyLeaderBoard();
 }
 
 export const createRestartScene = () => {
     createField();
     createBombermen();
     prepareLevelScene(level1, bonusForLevel1);
+    leaderBoard();
     livesText.text = `= ${gameState.livesAmount}`;
     bombState.bombAmount = 1;
     bombState.bombRadius = 1;
     bombState.explosionSize = 3;
     gameState.level = 1;
+    gameState.score = 0;
+    scoreText.text = `Score: ${gameState.score}`;
 }
 
 // gameOver()

@@ -6,6 +6,7 @@ import { arrStone } from './stone.js';
 import { bombs } from './bomb.js';
 import { bombermen, player, playerOff } from './bomberman.js';
 import { getRandomInt } from './bonuses.js';
+import { scoreText } from './score.js';
 
 const enemySprite = await PIXI.Assets.load('/assets/sprites/enemy.png');
 const speedsterSprite = await PIXI.Assets.load('/assets/sprites/speedster.png');
@@ -439,6 +440,8 @@ const destroyEnemy = (enemy) => {
     app.ticker.remove(enemy.tick);
     enemy.destroy({ children: true });
     enemies.splice(enemies.indexOf(enemy), 1);
+    gameState.score += 500;
+    scoreText.text = `Score: ${gameState.score}`;
     console.log(enemies);
 }
 
