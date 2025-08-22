@@ -10,7 +10,6 @@ export const gameOverActive = () => {
     gameOverContainer = new PIXI.Container();
     gameOverContainer.zIndex = 3;
 
-    // === Текст "GAME OVER"
     const title = new PIXI.Text({
         text: 'GAME OVER', 
         style: {
@@ -22,11 +21,10 @@ export const gameOverActive = () => {
     });
 
     title.anchor.set(0.5);
-    title.y = -100; // чуть выше центра
+    title.y = -100; 
 
     gameOverContainer.addChild(title);
 
-    // === Анимация пульсации текста
     let t = 0;
     app.ticker.add(() => {
         t += 0.05;
@@ -35,15 +33,13 @@ export const gameOverActive = () => {
         title.alpha = 0.7 + Math.sin(t * 2) * 0.3;
     });
 
-    // === Кнопка "Restart"
     const gameOverBtn = new PIXI.Graphics()
         .roundRect(0, 0, 220, 70, 15)
         .fill({ color: 0x3498db });
 
-    gameOverBtn.pivot.set(110, 35); // центр кнопки
+    gameOverBtn.pivot.set(110, 35);
     gameOverBtn.y = 50;
 
-    // Текст внутри кнопки
     const btnText = new PIXI.Text({
         text: 'RESTART',
         style: {
@@ -56,8 +52,7 @@ export const gameOverActive = () => {
     btnText.anchor.set(0.5);
     btnText.y = 50;
 
-    // Делаем кнопку интерактивной
-    gameOverBtn.eventMode = 'static'; // в Pixi v8 вместо interactive = true
+    gameOverBtn.eventMode = 'static'; 
     gameOverBtn.cursor = 'pointer';
     gameOverBtn.on('pointerdown', () => {
         console.log('🔄 Restart game!');
@@ -67,7 +62,6 @@ export const gameOverActive = () => {
 
     gameOverContainer.addChild(gameOverBtn, btnText);
 
-    // === Центрируем контейнер
     gameOverContainer.x = app.screen.width / 2;
     gameOverContainer.y = app.screen.height / 2;
 
