@@ -13,7 +13,7 @@
 
 6) To complete the level, you need to blow up all the enemies, find the teleport hidden under one of the walls, and enter it.
 
-<img src="public/assets/screenshots/screen1.png" alt="screen 1">
-<img src="public/assets/screenshots/screen2.png" alt="screen 2">
-<img src="public/assets/screenshots/screen3.png" alt="screen 3">
-<img src="public/assets/screenshots/screen4.png" alt="screen 4">
+<img src="public/assets/screenshots/screenshot1.png" alt="screenshot 1">
+<img src="public/assets/screenshots/screenshot2.png" alt="screenshot 2">
+<img src="public/assets/screenshots/screenshot3.png" alt="screenshot 3">
+<img src="public/assets/screenshots/screenshot4.png" alt="screenshot 4">
