@@ -14,6 +14,7 @@ const teleportSprite = await PIXI.Assets.load('/assets/sprites/teleport.png');
 const hpSprite = await PIXI.Assets.load('/assets/sprites/lives.png');
 
 let bonusContainer;
+let teleportRotation;
 let bonuses = [];
 let bonusesExplosion = [];
 let bonusesBomb = [];
@@ -72,9 +73,11 @@ export const createBonus = (level, bonus) => {
             const teleport = new PIXI.Sprite({texture: teleportSprite});
             teleport.width = sizeRect;
             teleport.height = sizeRect;
-            teleport.x = teleportIndex % widthField * sizeRect;
-            teleport.y = (Math.trunc(teleportIndex / widthField)) * sizeRect;
+            teleport.x = (teleportIndex % widthField * sizeRect) + (sizeRect / 2);
+            teleport.y = (Math.trunc(teleportIndex / widthField)) * sizeRect + (sizeRect / 2);
             teleports[teleportIndex] = teleport;
+            teleport.anchor.set(0.5);
+            teleportRotation = () => {teleport.rotation += 0.05};
             bonusContainer.addChild(teleport);
             placeForBonus.splice(placeForBonus.indexOf(teleportIndex), 1);
         }
@@ -155,6 +158,15 @@ export const getTeleport = (bombermen) => {
 
 export const getRandomInt = (max) => {
     return Math.floor(Math.random() * max);
+}
+
+export const teleportActive = () => {
+    if (gameState.teleportActive) {
+        app.ticker.add(teleportRotation);
+    }
+    else {
+        app.ticker.remove(teleportRotation);
+    }
 }
 
 export const handleBonusDestroy = (bomb) => {

@@ -3,7 +3,7 @@ import { clearField, createField} from './field';
 import { bombermen, startBombermen, createBombermen, moveBombermen, playerLives, clearBombermen, livesText } from './bomberman';
 import { clearWall, createWall } from './wall';
 import { clearStone, createStone } from './stone';
-import { clearBonus, createBonus } from './bonuses';
+import { clearBonus, createBonus, teleportActive } from './bonuses';
 import { createBomb } from './bomb';
 import { clearEnemy, createEnemy } from './enemy';
 import { createDecor } from './decor';
@@ -118,6 +118,7 @@ const gameLoop = () => {
         startNewLevel2();
         gameState.startLevel2 = false;
         gameState.teleportActive = false;
+        teleportActive();
         console.log(gameState.teleportActive);
     }
 

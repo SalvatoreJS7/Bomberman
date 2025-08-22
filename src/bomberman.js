@@ -42,7 +42,7 @@ export const moveBombermen = () => {
     let move = '';
    
     document.addEventListener('keydown', (e) => {
-        if(bombermen.destroyed) return;
+        // if(bombermen.destroyed) return;
         
         if(e.key === 'ArrowRight' && bombermen.position.x < rightBorder && !arrWall[bombermen.currentIndex + 1] && !arrStone[bombermen.currentIndex + 1] && !bombs[bombermen.currentIndex + 1] && !isMoving) { 
             isMoving = true;

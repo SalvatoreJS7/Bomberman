@@ -5,7 +5,7 @@ import { arrWall } from './wall.js';
 import { arrStone } from './stone.js';
 import { bombs } from './bomb.js';
 import { bombermen, player, playerOff } from './bomberman.js';
-import { getRandomInt } from './bonuses.js';
+import { getRandomInt, teleportActive } from './bonuses.js';
 import { scoreText } from './score.js';
 
 const enemySprite = await PIXI.Assets.load('/assets/sprites/enemy.png');
@@ -364,28 +364,11 @@ const moveGhost = (enemy, speed) => {
 
 export const handleEnemyDestroy = (bomb) => {
 
+    if(gameState.teleportActive) {
+        return;
+    }
+
     const toRemove = [];
-
-    // for (let i = 0; i < enemies.length; i++) {
-    //     for(let j = 1; j <= bombState.bombRadius; j++) {
-    //         if (bomb.bombIndex % widthField !== widthField - 1 && enemies[i].index === bomb.bombIndex + j) {
-    //             toRemove.push(enemies[i]);
-    //         }
-    //         if(bomb.bombIndex % widthField !== 0 && enemies[i].index === bomb.bombIndex - j) {
-    //             toRemove.push(enemies[i]);
-    //         }
-    //         if(enemies[i].index === bomb.bombIndex + widthField * j) {
-    //             toRemove.push(enemies[i]);
-    //         }
-    //         if(enemies[i].index === bomb.bombIndex - widthField * j) {
-    //             toRemove.push(enemies[i]);
-    //         }
-    //     } 
-
-    //     if(enemies[i].index === bomb.bombIndex){
-    //             toRemove.push(enemies[i]);
-    //         }
-    // }
 
     for (let i = 0; i < enemies.length; i++) {
         for(let j = 1; j <= bombState.bombRadius; j++) {
@@ -429,6 +412,7 @@ export const handleEnemyDestroy = (bomb) => {
     if(enemies.length === 0) {
         console.log('winner');
         gameState.teleportActive = true;
+        teleportActive();
         console.log(gameState.teleportActive);
     }
 }
