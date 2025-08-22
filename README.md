@@ -9,10 +9,9 @@
 
 4) Press the Spacebar to place a bomb.
 
-5) Blow up the walls and collect the bonuses hidden underneath. There are several types:
-a) Increased explosion radius
-b) Ability to place multiple bombs at once
-c) An extra life
+5) Blow up the walls and collect the bonuses hidden underneath. There are several types: increased explosion radius, ability to place multiple bombs at once, an extra life.
+
+6) To complete the level, you need to blow up all the enemies, find the teleport hidden under one of the walls, and enter it.
 
 <img src="public/assets/screenshots/screen1.png" alt="screen 1">
 <img src="public/assets/screenshots/screen2.png" alt="screen 2">
