@@ -3,10 +3,11 @@ import { app } from './index.js';
 import { sizeRect, widthField } from './field.js';
 import { bombermen } from './bomberman.js';
 
-const decorSprite1 = await PIXI.Assets.load('/assets/sprites/joystick.png');
-const decorSprite2 = await PIXI.Assets.load('/assets/sprites/supernintendo.png');
 
-export const createDecor = () => {
+export const createDecor = async () => {
+    const decorSprite1 = await PIXI.Assets.load('/assets/sprites/joystick.png');
+    const decorSprite2 = await PIXI.Assets.load('/assets/sprites/supernintendo.png');
+
     const decorContainer = new PIXI.Container();
     const decor1 = new PIXI.Sprite(decorSprite1);
     const decor2 = new PIXI.Sprite(decorSprite2);

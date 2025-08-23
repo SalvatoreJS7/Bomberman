@@ -8,15 +8,16 @@ import { bombermen, player, playerOff } from './bomberman.js';
 import { getRandomInt, teleportActive } from './bonuses.js';
 import { scoreText } from './score.js';
 
-const enemySprite = await PIXI.Assets.load('/assets/sprites/enemy.png');
-const speedsterSprite = await PIXI.Assets.load('/assets/sprites/speedster.png');
-const ghostSprite = await PIXI.Assets.load('/assets/sprites/ghost.png');
+
 
 export let enemies = [];
 let enemyContainer;
 
-export const createEnemy = (level) => {
+export const createEnemy = async (level) => {
     enemyContainer = new PIXI.Container();
+    const enemySprite = await PIXI.Assets.load('/assets/sprites/enemy.png');
+    const speedsterSprite = await PIXI.Assets.load('/assets/sprites/speedster.png');
+    const ghostSprite = await PIXI.Assets.load('/assets/sprites/ghost.png');
 
     let enemyX = 0;
     let enemyY = 0;

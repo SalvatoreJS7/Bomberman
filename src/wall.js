@@ -4,16 +4,17 @@ import { sizeRect, widthField, heightField, fieldSize } from './field.js';
 import { arrStone } from './stone.js';
 import { scoreText } from './score.js';
 
-const textureWall = await PIXI.Assets.load('/assets/textures/stone2.png');
-const destroyWall = await PIXI.Assets.load('/assets/sprites/destroyWall.png');
+
 
 export let arrWall = [];
 let wallContainer;
 
-export const createWall = (level) => {
+export const createWall = async (level) => {
 
     let wallX = 0;
     let wallY = 0;
+
+    const textureWall = await PIXI.Assets.load('/assets/textures/stone2.png');
 
     wallContainer = new PIXI.Container();
     for (let i = 0; i < fieldSize; i++) {
@@ -82,7 +83,7 @@ export const handleWallDestroy = (bomb) => {
     
 }
 
-const wallDestroy = (index) => {
+const wallDestroy = async (index) => {
     if(!arrWall[index]) return;
 
     arrWall[index].destroy({children: true});
@@ -91,6 +92,7 @@ const wallDestroy = (index) => {
     scoreText.text = `Score: ${gameState.score}`;
     //add animation
     const wallDestroyContainer = new PIXI.Container();
+    const destroyWall = await PIXI.Assets.load('/assets/sprites/destroyWall.png');
      
     const spriteDestroyWall = new PIXI.Sprite(destroyWall);
     spriteDestroyWall.width = sizeRect;

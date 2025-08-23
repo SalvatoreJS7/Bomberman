@@ -2,15 +2,17 @@ import * as PIXI from 'pixi.js';
 import { app } from './index.js';
 import { sizeRect, widthField, heightField, fieldSize } from './field.js';
 
-const textureStone = await PIXI.Assets.load('/assets/sprites/stone3.jpg');
+
 
 let stoneContainer;
 export let arrStone = [];
 
-export const createStone = (level) => {
+export const createStone = async (level) => {
 
     let stoneX = 0;
     let stoneY = 0;
+
+    const textureStone = await PIXI.Assets.load('/assets/sprites/stone3.jpg');
 
     stoneContainer = new PIXI.Container();
      for(let i = 0; i < fieldSize; i++) {

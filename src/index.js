@@ -11,15 +11,7 @@ import { gameOverActive } from './gameover';
 import { addScore, destroyLeaderBoard, leaderBoard, scoreRender, scoreText } from './score';
 
 export const app = new PIXI.Application();
-await app.init({
-    background: '#000000ff',
-    antialias: true,
-    width: window.innerWidth,
-    height: window.innerHeight,
-})
 
-document.body.appendChild(app.canvas);
-app.stage.sortableChildren = true;
 
 export const level1 = [
   '', '', 'wall', 'wall', '', '', 'wall', '', '', 'wall', 'wall', '', 'enemy',
@@ -99,7 +91,16 @@ const startNewLevel2 = () => {
     
 }
 
-const createScene = () => {
+const createScene = async () => {
+    await app.init({
+    background: '#000000ff',
+    antialias: true,
+    width: window.innerWidth,
+    height: window.innerHeight,
+})
+
+document.body.appendChild(app.canvas);
+app.stage.sortableChildren = true;
     createField();
     createBombermen();
     moveBombermen();

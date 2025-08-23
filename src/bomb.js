@@ -7,8 +7,7 @@ import { arrWall, handleWallDestroy } from './wall.js';
 import { checkedEnemy, handleEnemyDestroy } from './enemy.js';
 import { handleBonusDestroy, heandleTeleportExplosion } from './bonuses.js';
 
-const bombSprite = await PIXI.Assets.load('/assets/sprites/bomb.png');
-const explosionSprite = await PIXI.Assets.load('/assets/sprites/explosion2.png');
+
 
 export let bombs = [];
 
@@ -17,8 +16,9 @@ export const createBomb = () => {
      
     let isBomb = false;
 
-    document.addEventListener('keydown', (e) => {
+    document.addEventListener('keydown', async (e) => {
         if (bombermen.destroyed) return;
+        const bombSprite = await PIXI.Assets.load('/assets/sprites/bomb.png');
         if(e.key === ' ' && isBomb === false && checkedEnemy()) {
             const bombContainer = new PIXI.Container();
             const bomb = new PIXI.Sprite(bombSprite); // make bomb local variable
@@ -79,8 +79,10 @@ const handleBombExplosion = (bomb) => {
 //     app.stage.addChild(explosionContainer);
 // }
 
-const createExplosionX = (bomb) => {
+const createExplosionX = async (bomb) => {
     const explosionContainer = new PIXI.Container();
+    const explosionSprite = await PIXI.Assets.load('/assets/sprites/explosion2.png');
+
     const explosion = new PIXI.Sprite(explosionSprite);
     let widthX = 1;
     let biasX = 0;
@@ -139,7 +141,8 @@ const createExplosionX = (bomb) => {
 //     app.stage.addChild(explosionContainer);
 // }
 
-const createExplosionY = (bomb) => {
+const createExplosionY = async (bomb) => {
+    const explosionSprite = await PIXI.Assets.load('/assets/sprites/explosion2.png');
     const explosionContainer = new PIXI.Container();
     const explosion = new PIXI.Sprite(explosionSprite);
     let widthY = 1;

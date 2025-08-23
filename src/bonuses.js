@@ -8,10 +8,6 @@ import { livesText } from './bomberman.js';
 import { scoreText } from './score.js';
 
 
-const bonusExplosionSprite = await PIXI.Assets.load('/assets/sprites/bonusExplosion.png');
-const bonusBombSprite = await PIXI.Assets.load('/assets/sprites/bonusBomb.png');
-const teleportSprite = await PIXI.Assets.load('/assets/sprites/teleport.png');
-const hpSprite = await PIXI.Assets.load('/assets/sprites/lives.png');
 
 let bonusContainer;
 let teleportRotation;
@@ -23,11 +19,17 @@ let teleports = [];
 let bonusesDestroy = [bonuses, bonusesExplosion, bonusesBomb, bonusesHp];
 let teleportIndex = 0;
 
-export const createBonus = (level, bonus) => {
+export const createBonus = async (level, bonus) => {
     bonusContainer = new PIXI.Container();
     let bonusExplosionIndex = 0;
     let bonusBombIndex = 0;
     let hpIndex = 0;
+
+    const bonusExplosionSprite = await PIXI.Assets.load('/assets/sprites/bonusExplosion.png');
+    const bonusBombSprite = await PIXI.Assets.load('/assets/sprites/bonusBomb.png');
+    const teleportSprite = await PIXI.Assets.load('/assets/sprites/teleport.png');
+    const hpSprite = await PIXI.Assets.load('/assets/sprites/lives.png');
+
     
 
     const placeForBonus = [];

@@ -11,10 +11,12 @@ export let livesText;
 export let player = true;
 let bombermenContainer;
 
-const spriteBombermen = await PIXI.Assets.load('/assets/sprites/bomberman2.png');
-const livesSprite = await PIXI.Assets.load('assets/sprites/lives.png');
 
-export const createBombermen = () => {
+
+
+export const createBombermen = async () => {
+
+    const spriteBombermen = await PIXI.Assets.load('/assets/sprites/bomberman2.png');
 
     bombermenContainer = new PIXI.Container();
 
@@ -187,7 +189,8 @@ export const playerOff = () => {
     
 }
 
-export const playerLives = () => {
+export const playerLives = async () => {
+    const livesSprite = await PIXI.Assets.load('assets/sprites/lives.png');
     const livesContainer = new PIXI.Container();
     const lives = new PIXI.Sprite(livesSprite);
     lives.width = 100;
