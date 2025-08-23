@@ -30,7 +30,7 @@ export const scoreRender = () => {
 
 export function addScore() {
   // достаём массив из localStorage, если нет — создаём пустой
-  scores = JSON.parse(localStorage.getItem("scores"));
+  scores = JSON.parse(localStorage.getItem("scores")) || [];
 
   // добавляем новое число
   scores.push(gameState.score);
