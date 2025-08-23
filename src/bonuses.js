@@ -25,10 +25,10 @@ export const createBonus = async (level, bonus) => {
     let bonusBombIndex = 0;
     let hpIndex = 0;
 
-    const bonusExplosionSprite = await PIXI.Assets.load('/assets/sprites/bonusExplosion.png');
-    const bonusBombSprite = await PIXI.Assets.load('/assets/sprites/bonusBomb.png');
-    const teleportSprite = await PIXI.Assets.load('/assets/sprites/teleport.png');
-    const hpSprite = await PIXI.Assets.load('/assets/sprites/lives.png');
+    const bonusExplosionSprite = await PIXI.Assets.load('assets/sprites/bonusExplosion.png');
+    const bonusBombSprite = await PIXI.Assets.load('assets/sprites/bonusBomb.png');
+    const teleportSprite = await PIXI.Assets.load('assets/sprites/teleport.png');
+    const hpSprite = await PIXI.Assets.load('assets/sprites/lives.png');
 
     
 
@@ -210,7 +210,7 @@ export const heandleTeleportExplosion = (bomb) => {
     for(let i = 1; i <= bombState.bombRadius; i++) {
         if(bomb.bombIndex % widthField !== widthField - 1 && teleports[bomb.bombIndex + i] && !arrWall[bomb.bombIndex + i] && !gameState.teleportActive) {
            setTimeout(() => {
-             createSpeedstersFromTeleport(teleportIndex);
+                createSpeedstersFromTeleport(teleportIndex);
            }, 200)
         }
         if(bomb.bombIndex % widthField !== 0 && teleports[bomb.bombIndex - i] && !arrWall[bomb.bombIndex - i] && !gameState.teleportActive) {

@@ -14,7 +14,7 @@ export const createWall = async (level) => {
     let wallX = 0;
     let wallY = 0;
 
-    const textureWall = await PIXI.Assets.load('/assets/textures/stone2.png');
+    const textureWall = await PIXI.Assets.load('assets/textures/stone2.png');
 
     wallContainer = new PIXI.Container();
     for (let i = 0; i < fieldSize; i++) {
@@ -92,7 +92,7 @@ const wallDestroy = async (index) => {
     scoreText.text = `Score: ${gameState.score}`;
     //add animation
     const wallDestroyContainer = new PIXI.Container();
-    const destroyWall = await PIXI.Assets.load('/assets/sprites/destroyWall.png');
+    const destroyWall = await PIXI.Assets.load('assets/sprites/destroyWall.png');
      
     const spriteDestroyWall = new PIXI.Sprite(destroyWall);
     spriteDestroyWall.width = sizeRect;

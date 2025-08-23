@@ -12,7 +12,7 @@ export const createStone = async (level) => {
     let stoneX = 0;
     let stoneY = 0;
 
-    const textureStone = await PIXI.Assets.load('/assets/sprites/stone3.jpg');
+    const textureStone = await PIXI.Assets.load('assets/sprites/stone3.jpg');
 
     stoneContainer = new PIXI.Container();
      for(let i = 0; i < fieldSize; i++) {

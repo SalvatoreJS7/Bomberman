@@ -18,7 +18,7 @@ export const createBomb = () => {
 
     document.addEventListener('keydown', async (e) => {
         if (bombermen.destroyed) return;
-        const bombSprite = await PIXI.Assets.load('/assets/sprites/bomb.png');
+        const bombSprite = await PIXI.Assets.load('assets/sprites/bomb.png');
         if(e.key === ' ' && isBomb === false && checkedEnemy()) {
             const bombContainer = new PIXI.Container();
             const bomb = new PIXI.Sprite(bombSprite); // make bomb local variable
@@ -39,9 +39,10 @@ export const createBomb = () => {
             bombContainer.addChild(bomb);
             app.stage.addChild(bombContainer);
 
-            setTimeout(() => {
-                createExplosionX(bomb);
-                createExplosionY(bomb);
+            setTimeout(async () => {
+                console.log('bomb', bomb.position)
+                await createExplosionX(bomb);
+                await createExplosionY(bomb);
                 handleBombExplosion(bomb);
                 bomb.destroy({children: true});
                 bombs[bomb.bombIndex] = undefined;
@@ -81,7 +82,7 @@ const handleBombExplosion = (bomb) => {
 
 const createExplosionX = async (bomb) => {
     const explosionContainer = new PIXI.Container();
-    const explosionSprite = await PIXI.Assets.load('/assets/sprites/explosion2.png');
+    const explosionSprite = await PIXI.Assets.load('assets/sprites/explosion2.png');
 
     const explosion = new PIXI.Sprite(explosionSprite);
     let widthX = 1;
@@ -113,6 +114,7 @@ const createExplosionX = async (bomb) => {
     explosion.width = sizeRect * widthX;
     explosion.height = sizeRect;
     explosionContainer.zIndex = 2;
+    console.log('bombX', bomb.position)
     explosion.position.x = bomb.position.x - (sizeRect - bomb.width) / 2 - (sizeRect * biasX);
     explosion.position.y = bomb.position.y - ((sizeRect - bomb.height));
     
@@ -142,7 +144,7 @@ const createExplosionX = async (bomb) => {
 // }
 
 const createExplosionY = async (bomb) => {
-    const explosionSprite = await PIXI.Assets.load('/assets/sprites/explosion2.png');
+    const explosionSprite = await PIXI.Assets.load('assets/sprites/explosion2.png');
     const explosionContainer = new PIXI.Container();
     const explosion = new PIXI.Sprite(explosionSprite);
     let widthY = 1;

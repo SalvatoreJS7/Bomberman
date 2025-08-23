@@ -15,9 +15,9 @@ let enemyContainer;
 
 export const createEnemy = async (level) => {
     enemyContainer = new PIXI.Container();
-    const enemySprite = await PIXI.Assets.load('/assets/sprites/enemy.png');
-    const speedsterSprite = await PIXI.Assets.load('/assets/sprites/speedster.png');
-    const ghostSprite = await PIXI.Assets.load('/assets/sprites/ghost.png');
+    const enemySprite = await PIXI.Assets.load('assets/sprites/enemy.png');
+    const speedsterSprite = await PIXI.Assets.load('assets/sprites/speedster.png');
+    const ghostSprite = await PIXI.Assets.load('assets/sprites/ghost.png');
 
     let enemyX = 0;
     let enemyY = 0;
@@ -77,7 +77,8 @@ export const createEnemy = async (level) => {
     app.stage.addChild(enemyContainer);
 }
 
-export const createSpeedstersFromTeleport = (index) => {
+export const createSpeedstersFromTeleport = async (index) => {
+    const speedsterSprite = await PIXI.Assets.load('assets/sprites/speedster.png');
     for (let i = 0 ; i < 3; i++) {
         console.log("Создаём врагов из телепорта", index);
         const speedster = new PIXI.Sprite(speedsterSprite);

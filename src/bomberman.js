@@ -16,7 +16,7 @@ let bombermenContainer;
 
 export const createBombermen = async () => {
 
-    const spriteBombermen = await PIXI.Assets.load('/assets/sprites/bomberman2.png');
+    const spriteBombermen = await PIXI.Assets.load('assets/sprites/bomberman2.png');
 
     bombermenContainer = new PIXI.Container();
 

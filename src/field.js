@@ -18,7 +18,7 @@ export const createField = async () => {
     let fieldY = 0;
 
     fieldContainer = new PIXI.Container();
-    const textureGrass = await PIXI.Assets.load('/assets/textures/grass.avif');
+    const textureGrass = await PIXI.Assets.load('assets/textures/grass.avif');
 
     for(let i = 0; i < fieldSize; i++) {
 
