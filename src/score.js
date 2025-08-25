@@ -2,11 +2,23 @@ import * as PIXI from 'pixi.js';
 import { app, bombState, gameState } from './index.js';
 import { sizeRect, widthField, heightField, fieldSize } from './field.js';
 
+const sortObject = (object) => {
+    const sortArray = Object.entries(object).sort((a, b) =>  b[1] - a[1]);
+    if(sortArray.length > 10) {
+        sortArray.length = 10;
+    }
+    const ArrayToObject = Object.fromEntries(sortArray);
+    return ArrayToObject;
+} 
+
 export let scoreText;
 let leaderBoardContainer;
-let scores = JSON.parse(localStorage.getItem("scores")) || [];
-scores.sort((a, b) => b - a);
-scores.length = 10;
+export let scores = JSON.parse(localStorage.getItem("scores")) || {};
+export let scoresData = sortObject(scores);
+// scores.sort((a, b) => b - a);
+// if(scores.length > 10) {
+//     scores.length = 10;
+// }
 
 export const scoreRender = () => {
     const scoreContainer = new PIXI.Container();
@@ -28,18 +40,44 @@ export const scoreRender = () => {
     app.stage.addChild(scoreContainer);
 }
 
+// export function addScore() {
+//   // достаём массив из localStorage, если нет — создаём пустой
+//   scores = JSON.parse(localStorage.getItem("scores")) || [];
+
+//   // добавляем новое число
+//   scores.push(gameState.score);
+//   scores.sort((a, b) => b - a);
+
+//   if(scores.length > 10) {
+//     scores.length = 10;
+//   }
+
+//   // сохраняем обратно
+//   localStorage.setItem("scores", JSON.stringify(scores));
+// }
+
 export function addScore() {
   // достаём массив из localStorage, если нет — создаём пустой
-  scores = JSON.parse(localStorage.getItem("scores")) || [];
+  scores = JSON.parse(localStorage.getItem("scores")) || {};
 
   // добавляем новое число
-  scores.push(gameState.score);
-  scores.sort((a, b) => b - a);
-  scores.length = 10;
+  scores[gameState.playerName] = gameState.score;
+  scoresData = sortObject(scores);
 
   // сохраняем обратно
   localStorage.setItem("scores", JSON.stringify(scores));
 }
+
+// export function addNickname(name) {
+//   // достаём массив из localStorage, если нет — создаём пустой
+//   nicknames = JSON.parse(localStorage.getItem("nicknames")) || [];
+
+//   // добавляем новое число
+//   nicknames.push(name);
+
+//   // сохраняем обратно
+//   localStorage.setItem("nicknames", JSON.stringify(nicknames));
+// }
 
 export const leaderBoard = () => {
     leaderBoardContainer = new PIXI.Container;
@@ -56,10 +94,30 @@ export const leaderBoard = () => {
     
     leaderBoardContainer.addChild(leaderBoardTitle);
     
-    scores.forEach((score, index) => {
+    // scores.forEach((score, index) => {
+    //     let positionY = 30;
+    //     const leaderBoardText = new PIXI.Text({
+    //         text: `${index + 1}. ${score}`,
+    //         style: {
+    //             fontFamily: 'Arial',
+    //             fontSize: 22,
+    //             fill: '#ffffff',
+    //             fontWeight: 'bold'
+    //         }
+    //     })
+    //     leaderBoardText.x = 50;
+    //     leaderBoardText.y = positionY * index + 50;
+    //     leaderBoardContainer.addChild(leaderBoardText); 
+    // });
+    
+    let index = 0;
+
+    for (let key in scoresData) {
+        
+        index += 1;
         let positionY = 30;
         const leaderBoardText = new PIXI.Text({
-            text: `${index + 1}. ${score}`,
+            text: `${index}. ${key}: ${scoresData[key]}`,
             style: {
                 fontFamily: 'Arial',
                 fontSize: 22,
@@ -67,10 +125,10 @@ export const leaderBoard = () => {
                 fontWeight: 'bold'
             }
         })
-        leaderBoardText.x = 50;
+        leaderBoardText.x = 30;
         leaderBoardText.y = positionY * index + 50;
         leaderBoardContainer.addChild(leaderBoardText); 
-    });
+    }
 
    
 

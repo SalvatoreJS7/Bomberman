@@ -8,7 +8,8 @@ import { createBomb } from './bomb';
 import { clearEnemy, createEnemy } from './enemy';
 import { createDecor } from './decor';
 import { gameOverActive } from './gameover';
-import { addScore, destroyLeaderBoard, leaderBoard, scoreRender, scoreText } from './score';
+import { addScore, destroyLeaderBoard, leaderBoard, scoreRender, scores, scoreText } from './score';
+import { clearNextLevel, currentLevel, level, nextLevelUp } from './level';
 
 export const app = new PIXI.Application();
 
@@ -65,6 +66,7 @@ export const gameState = {
     livesAmount: 5,
     level: 1,
     score: 0,
+    playerName: '?',
 }
 
 export const bombState = {
@@ -80,7 +82,7 @@ const prepareLevelScene = (levelTemplate, bonusTemplate) => {
     createBonus(levelTemplate, bonusTemplate);
 }
 
-const startNewLevel2 = () => {
+export const startNewLevel = () => {
     clearScene();
     if(gameState.level === 2) {
         prepareLevelScene(level2, bonusForLevel2);
@@ -110,17 +112,21 @@ app.stage.sortableChildren = true;
     createBomb();
     scoreRender();
     leaderBoard();
+    currentLevel();
+    nextLevelUp();
+    console.log('scoresData', scores);
 }
 
 createScene();
 
 const gameLoop = () => {
     if (gameState.startLevel2) {
-        startNewLevel2();
+        startNewLevel();
         gameState.startLevel2 = false;
         gameState.teleportActive = false;
         teleportActive();
         console.log(gameState.teleportActive);
+        level.text = `Level: ${gameState.level}`;
     }
 
     if (gameState.livesAmount === 0) {
@@ -147,8 +153,9 @@ const gameOver = () => {
     clearStone();
     clearEnemy();
     clearField();
+    clearNextLevel();
     gameOverActive();
-    addScore();
+    
     destroyLeaderBoard();
 }
 
@@ -156,14 +163,17 @@ export const createRestartScene = () => {
     createField();
     createBombermen();
     prepareLevelScene(level1, bonusForLevel1);
+    addScore();
     leaderBoard();
-    livesText.text = `= ${gameState.livesAmount}`;
+    nextLevelUp();
+    livesText.text = `= ${gameState.livesAmount}`
     bombState.bombAmount = 1;
     bombState.bombRadius = 1;
     bombState.explosionSize = 3;
     gameState.level = 1;
     gameState.score = 0;
     scoreText.text = `Score: ${gameState.score}`;
+    level.text = `Level: ${gameState.level}`;
 }
 
 // gameOver()

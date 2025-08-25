@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js';
-import { app, bombState, createRestartScene, gameState } from './index.js';
-import { sizeRect, widthField, heightField, fieldSize } from './field.js';
-import { livesText } from './bomberman.js';
+import { Input } from '@pixi/ui';
+import { app, createRestartScene, gameState } from './index.js';
+import { scores, scoresData } from './score.js';
 
 let gameOverContainer;
 
@@ -62,11 +62,54 @@ export const gameOverActive = () => {
 
     gameOverContainer.addChild(gameOverBtn, btnText);
 
+    if(gameState.score >= Object.values(scoresData)[Object.values(scoresData).length - 1]) {
+        inputName();
+    }
+
     gameOverContainer.x = app.screen.width / 2;
     gameOverContainer.y = app.screen.height / 2;
 
     app.stage.addChild(gameOverContainer);
 };
+
+const inputName = () => {
+
+    const input = new Input({
+        bg: new PIXI.Graphics()
+        .roundRect(0, 0, 300, 70, 15)
+        .fill({color: '#0fb7e0ff'}),
+        placeholder: 'Enter your nickname',
+        padding: [8, 0, 8, 0],
+        textStyle: {
+            fontFamily: 'Arial',
+            fontSize: 22,
+            fontWeight: 'bold',
+            fill: '#ffffff',
+        },
+        maxLength: 3,
+        align: 'center',
+    })
+
+    input.pivot.set(150, 35);
+    input.y = 250;
+    input.onEnter.connect((name) => {
+        if (name !== '' && name in scores) {
+            console.log('Имя занято')
+            input.bg.clear();
+            input.bg.roundRect(0, 0, 300, 70, 15).fill({ color: 0xfd0000 });
+            input.placeholder.text = 'Nickname reserved';
+        }
+        else if (name !== '') {
+            input.eventMode = 'none';
+            input.alpha = 0.6;
+            gameState.playerName = name;
+            input.bg.clear();
+            input.bg.roundRect(0, 0, 300, 70, 15).fill({ color: '#0fb7e0ff' });
+        }
+    })
+
+    gameOverContainer.addChild(input);
+}
 
 const deleteGameOverActive = () => {
     gameOverContainer.destroy({cgildren: true});

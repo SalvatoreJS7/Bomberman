@@ -1,5 +1,6 @@
 1) For start the game you need install pixi.js and Vite:
 ### npm install pixi.js 
+### npm install @pixi/ui
 ### npm install vite --save-dev
 
 2) Now you can launch the game in local server:
