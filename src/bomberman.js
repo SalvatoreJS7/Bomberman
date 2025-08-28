@@ -10,6 +10,7 @@ import { checkCollision } from './utils.js';
 export let bombermen;
 export let livesText;
 export let player = true;
+let bombermenTicker;
 let bombermenContainer;
 let livesContainer;
 
@@ -65,7 +66,7 @@ export const moveBombermen = () => {
         }
     })
 
-    app.ticker.add(() => {
+    bombermenTicker = (() => {
         if(!isMoving) return;
         
         if(move === 'right') {
@@ -113,6 +114,8 @@ export const moveBombermen = () => {
         }
         getBonus(bombermen);
     })
+
+    app.ticker.add(bombermenTicker);
 }
 
 export const handlePlayerDestroy = (bomb) => {
@@ -233,6 +236,7 @@ export const startBombermen = () => {
 
 export const clearBombermen = () => {
     bombermenContainer.destroy({children: true});
+    app.ticker.remove(bombermenTicker);
 }
 
 export const clearPlayerLives = () => {

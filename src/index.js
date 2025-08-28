@@ -5,7 +5,7 @@ import { clearWall, createWall } from './wall';
 import { clearStone, createStone } from './stone';
 import { clearBonus, createBonus, teleportActive } from './bonuses';
 import { createBomb, explosionContainer } from './bomb';
-import { clearEnemy, createEnemy } from './enemy';
+import { clearEnemy, createEnemy, enemyContainer } from './enemy';
 import { clearDecor, createDecor } from './decor';
 import { gameOverActive } from './gameover';
 import { addScore, clearScore, destroyLeaderBoard, leaderBoard, scoreRender, scores, scoreText } from './score';
@@ -64,7 +64,7 @@ const bonusForLevel3 = [bonusMapping.explosionPlus, bonusMapping.bombPlus, bonus
 export const gameState = {
     teleportActive: false,
     startLevel2: false,
-    livesAmount: 5,
+    livesAmount: 1,
     level: 1,
     score: 0,
     playerName: '?',
@@ -127,7 +127,6 @@ app.stage.sortableChildren = true;
     currentLevel();
     nextLevelUp();
     console.log('scoresData', scores);
-    // winner();
 }
 
 createScene();
@@ -161,6 +160,7 @@ const clearScene = () => {
 
 const gameOver = () => {
     explosionContainer.visible = false;
+    enemyContainer.visible = false;
     clearWall();
     clearBonus();
     clearBombermen();
@@ -174,8 +174,10 @@ const gameOver = () => {
 }
 
 export const createRestartScene = () => {
+    clearEnemy();
     createField();
     createBombermen();
+    moveBombermen();
     prepareLevelScene(level1, bonusForLevel1);
     addScore();
     leaderBoard();

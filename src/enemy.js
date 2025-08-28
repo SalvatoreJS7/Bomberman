@@ -12,7 +12,7 @@ import { checkCollision } from './utils.js';
 
 
 export let enemies = [];
-let enemyContainer;
+export let enemyContainer;
 
 export const createEnemy = async (level) => {
     enemyContainer = new PIXI.Container();
@@ -79,6 +79,7 @@ export const createEnemy = async (level) => {
 }
 
 export const createSpeedstersFromTeleport = async (index) => {
+    if(gameState.livesAmount === 0) return;
     const speedsterSprite = await PIXI.Assets.load('assets/sprites/speedster.png');
     for (let i = 0 ; i < 3; i++) {
         console.log("Создаём врагов из телепорта", index);
@@ -403,7 +404,7 @@ export const handleEnemyDestroy = (bomb) => {
         //     }
         // }
         explosions.forEach((explosion) => {
-            if(checkCollision(enemies[i], explosion)) {
+            if(checkCollision(enemies[i], explosion) && !toRemove.includes(enemies[i])) {
                 toRemove.push(enemies[i]);
             }
         })
