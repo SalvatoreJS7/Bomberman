@@ -4,10 +4,11 @@ import { heightField, sizeRect, widthField } from './field.js';
 import { clearEnemy } from './enemy.js';
 
 export let level;
+let levelContainer;
 let nextLevelContainer;
 
 export const currentLevel = () => {
-    const levelContainer = new PIXI.Container();
+    levelContainer = new PIXI.Container();
     level = new PIXI.Text({
         text: `Level: ${gameState.level}`,
         style: {
@@ -66,4 +67,8 @@ export const nextLevelUp = async () => {
 
 export const clearNextLevel = () => {
     nextLevelContainer.destroy({children: true});
+}
+
+export const clearLevel = () => {
+    levelContainer.destroy({children: true});
 }

@@ -3,10 +3,11 @@ import { app, bombState, gameState } from './index.js';
 import { sizeRect, widthField, heightField, fieldSize } from './field.js';
 import { arrWall } from './wall.js';
 import { arrStone } from './stone.js';
-import { bombs } from './bomb.js';
+import { bombs, explosions } from './bomb.js';
 import { bombermen, player, playerOff } from './bomberman.js';
 import { getRandomInt, teleportActive } from './bonuses.js';
 import { scoreText } from './score.js';
+import { checkCollision } from './utils.js';
 
 
 
@@ -373,38 +374,44 @@ export const handleEnemyDestroy = (bomb) => {
     const toRemove = [];
 
     for (let i = 0; i < enemies.length; i++) {
-        for(let j = 1; j <= bombState.bombRadius; j++) {
-            if (Math.floor((bomb.bombIndex + j) / widthField) !== Math.floor(bomb.bombIndex / widthField) || arrWall[bomb.bombIndex + j] || arrStone[bomb.bombIndex + j]) break; 
+        // for(let j = 1; j <= bombState.bombRadius; j++) {
+        //     if (Math.floor((bomb.bombIndex + j) / widthField) !== Math.floor(bomb.bombIndex / widthField) || arrWall[bomb.bombIndex + j] || arrStone[bomb.bombIndex + j]) break; 
 
-            if (enemies[i].index === bomb.bombIndex + j) {
-                toRemove.push(enemies[i]);
-            }
-        }
-        for(let j = 1; j <= bombState.bombRadius; j++) {
-            if (Math.floor((bomb.bombIndex - j) / widthField) !== Math.floor(bomb.bombIndex / widthField) || arrWall[bomb.bombIndex - j] || arrStone[bomb.bombIndex - j]) break; 
+        //     if (enemies[i].index === bomb.bombIndex + j) {
+        //         toRemove.push(enemies[i]);
+        //     }
+        // }
+        // for(let j = 1; j <= bombState.bombRadius; j++) {
+        //     if (Math.floor((bomb.bombIndex - j) / widthField) !== Math.floor(bomb.bombIndex / widthField) || arrWall[bomb.bombIndex - j] || arrStone[bomb.bombIndex - j]) break; 
 
-            if(enemies[i].index === bomb.bombIndex - j) {
-                toRemove.push(enemies[i]);
-            }
-        }
-        for(let j = 1; j <= bombState.bombRadius; j++) {
-            if (arrWall[bomb.bombIndex + widthField * j] || arrStone[bomb.bombIndex + widthField * j]) break;
+        //     if(enemies[i].index === bomb.bombIndex - j) {
+        //         toRemove.push(enemies[i]);
+        //     }
+        // }
+        // for(let j = 1; j <= bombState.bombRadius; j++) {
+        //     if (arrWall[bomb.bombIndex + widthField * j] || arrStone[bomb.bombIndex + widthField * j]) break;
 
-            if(enemies[i].index === bomb.bombIndex + widthField * j) {
-                toRemove.push(enemies[i]);
-            }
-        }
-        for(let j = 1; j <= bombState.bombRadius; j++) {  
-            if (arrWall[bomb.bombIndex - widthField * j] || arrStone[bomb.bombIndex - widthField * j]) break;
+        //     if(enemies[i].index === bomb.bombIndex + widthField * j) {
+        //         toRemove.push(enemies[i]);
+        //     }
+        // }
+        // for(let j = 1; j <= bombState.bombRadius; j++) {  
+        //     if (arrWall[bomb.bombIndex - widthField * j] || arrStone[bomb.bombIndex - widthField * j]) break;
             
-            if(enemies[i].index === bomb.bombIndex - widthField * j) {
+        //     if(enemies[i].index === bomb.bombIndex - widthField * j) {
+        //         toRemove.push(enemies[i]);
+        //     }
+        // }
+        explosions.forEach((explosion) => {
+            if(checkCollision(enemies[i], explosion)) {
                 toRemove.push(enemies[i]);
             }
-        }
+        })
+        
 
-        if(enemies[i].index === bomb.bombIndex){
-                toRemove.push(enemies[i]);
-            }
+        // if(enemies[i].index === bomb.bombIndex){
+        //         toRemove.push(enemies[i]);
+        //     }
     }
 
     for(let i = 0; i < toRemove.length; i++) {

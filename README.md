@@ -14,6 +14,8 @@
 
 6) To complete the level, you need to blow up all the enemies, find the teleport hidden under one of the walls, and enter it.
 
+7) Click on the next level to quickly move to the next level.
+
 <img src="public/assets/screenshots/screenshot1.png" alt="screenshot 1">
 <img src="public/assets/screenshots/screenshot2.png" alt="screenshot 2">
 <img src="public/assets/screenshots/screenshot3.png" alt="screenshot 3">

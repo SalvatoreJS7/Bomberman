@@ -1,15 +1,16 @@
 import * as PIXI from 'pixi.js';
 import { clearField, createField} from './field';
-import { bombermen, startBombermen, createBombermen, moveBombermen, playerLives, clearBombermen, livesText } from './bomberman';
+import { bombermen, startBombermen, createBombermen, moveBombermen, playerLives, clearBombermen, livesText, clearPlayerLives } from './bomberman';
 import { clearWall, createWall } from './wall';
 import { clearStone, createStone } from './stone';
 import { clearBonus, createBonus, teleportActive } from './bonuses';
-import { createBomb } from './bomb';
+import { createBomb, explosionContainer } from './bomb';
 import { clearEnemy, createEnemy } from './enemy';
-import { createDecor } from './decor';
+import { clearDecor, createDecor } from './decor';
 import { gameOverActive } from './gameover';
-import { addScore, destroyLeaderBoard, leaderBoard, scoreRender, scores, scoreText } from './score';
-import { clearNextLevel, currentLevel, level, nextLevelUp } from './level';
+import { addScore, clearScore, destroyLeaderBoard, leaderBoard, scoreRender, scores, scoreText } from './score';
+import { clearLevel, clearNextLevel, currentLevel, level, nextLevelUp } from './level';
+import { winner } from './winner';
 
 export const app = new PIXI.Application();
 
@@ -90,6 +91,17 @@ export const startNewLevel = () => {
     if(gameState.level === 3) {
         prepareLevelScene(level3, bonusForLevel3);
     }
+    if(gameState.level === 4) {
+        clearField();
+        clearDecor();
+        clearLevel();
+        clearNextLevel();
+        clearPlayerLives();
+        clearBombermen();
+        destroyLeaderBoard();
+        clearScore();
+        winner();
+    }
     
 }
 
@@ -115,6 +127,7 @@ app.stage.sortableChildren = true;
     currentLevel();
     nextLevelUp();
     console.log('scoresData', scores);
+    // winner();
 }
 
 createScene();
@@ -147,6 +160,7 @@ const clearScene = () => {
 }
 
 const gameOver = () => {
+    explosionContainer.visible = false;
     clearWall();
     clearBonus();
     clearBombermen();
@@ -176,12 +190,7 @@ export const createRestartScene = () => {
     level.text = `Level: ${gameState.level}`;
 }
 
-// gameOver()
 
-
-// createField();
-// prepareLevelScene(level1, bonusForLevel1);
-// createBombermen();
 
 
 

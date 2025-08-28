@@ -4,12 +4,14 @@ import { fieldSize, sizeRect, widthField } from './field.js';
 import { bombermen, handlePlayerDestroy } from './bomberman.js';
 import { arrStone } from './stone.js';
 import { arrWall, handleWallDestroy } from './wall.js';
-import { checkedEnemy, handleEnemyDestroy } from './enemy.js';
+import { checkedEnemy, enemies, handleEnemyDestroy } from './enemy.js';
 import { handleBonusDestroy, heandleTeleportExplosion } from './bonuses.js';
 
 
 
 export let bombs = [];
+export let explosions = [];
+export let explosionContainer;
 
 
 export const createBomb = () => {
@@ -40,10 +42,10 @@ export const createBomb = () => {
             app.stage.addChild(bombContainer);
 
             setTimeout(async () => {
-                console.log('bomb', bomb.position)
                 await createExplosionX(bomb);
                 await createExplosionY(bomb);
                 handleBombExplosion(bomb);
+                console.log(enemies);
                 bomb.destroy({children: true});
                 bombs[bomb.bombIndex] = undefined;
                 isBomb = false;
@@ -63,25 +65,8 @@ const handleBombExplosion = (bomb) => {
     
 }   
 
-// const createExplosionX = (bomb) => {
-//     const explosionContainer = new PIXI.Container();
-//     const explosion = new PIXI.Sprite(explosionSprite);
-//     explosion.width = sizeRect * bombState.explosionSize;
-//     explosion.height = sizeRect;
-//     explosionContainer.zIndex = 2;
-//     explosion.position.x = bomb.position.x - ((sizeRect - bomb.width) / 2) - sizeRect * bombState.bombRadius;
-//     explosion.position.y = bomb.position.y - ((sizeRect - bomb.height));
-    
-//     setTimeout(() => {
-//         explosion.destroy({children: true})
-//     }, 500)
-
-//     explosionContainer.addChild(explosion);
-//     app.stage.addChild(explosionContainer);
-// }
-
 const createExplosionX = async (bomb) => {
-    const explosionContainer = new PIXI.Container();
+    explosionContainer = new PIXI.Container();
     const explosionSprite = await PIXI.Assets.load('assets/sprites/explosion2.png');
 
     const explosion = new PIXI.Sprite(explosionSprite);
@@ -114,38 +99,22 @@ const createExplosionX = async (bomb) => {
     explosion.width = sizeRect * widthX;
     explosion.height = sizeRect;
     explosionContainer.zIndex = 2;
-    console.log('bombX', bomb.position)
     explosion.position.x = bomb.position.x - (sizeRect - bomb.width) / 2 - (sizeRect * biasX);
     explosion.position.y = bomb.position.y - ((sizeRect - bomb.height));
+    explosions.push(explosion);
     
     setTimeout(() => {
         explosion.destroy({children: true})
+        explosions.length = 0;
     }, 500)
 
     explosionContainer.addChild(explosion);
     app.stage.addChild(explosionContainer);
 }
 
-// const createExplosionY = (bomb) => {
-//     const explosionContainer = new PIXI.Container();
-//     const explosion = new PIXI.Sprite(explosionSprite);
-//     explosion.width = sizeRect;
-//     explosion.height = sizeRect * bombState.explosionSize;
-//     explosionContainer.zIndex = 2;
-//     explosion.position.x = bomb.position.x - ((sizeRect - bomb.width) / 2);
-//     explosion.position.y = bomb.position.y - ((sizeRect - bomb.height)) - sizeRect * bombState.bombRadius;
-    
-//     setTimeout(() => {
-//         explosion.destroy({children: true})
-//     }, 500)
-
-//     explosionContainer.addChild(explosion);
-//     app.stage.addChild(explosionContainer);
-// }
-
 const createExplosionY = async (bomb) => {
     const explosionSprite = await PIXI.Assets.load('assets/sprites/explosion2.png');
-    const explosionContainer = new PIXI.Container();
+    // const explosionContainer = new PIXI.Container();
     const explosion = new PIXI.Sprite(explosionSprite);
     let widthY = 1;
     let biasY = 0;
@@ -182,9 +151,11 @@ const createExplosionY = async (bomb) => {
     explosionContainer.zIndex = 2;
     explosion.position.x = bomb.position.x - (sizeRect - bomb.width) / 2;
     explosion.position.y = bomb.position.y - ((sizeRect - bomb.height)) - (sizeRect * biasY);
+    explosions.push(explosion);
     
     setTimeout(() => {
         explosion.destroy({children: true})
+        explosion.length = 0;
     }, 500)
 
     explosionContainer.addChild(explosion);

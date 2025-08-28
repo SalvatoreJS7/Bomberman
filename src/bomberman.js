@@ -4,13 +4,14 @@ import { sizeRect, widthField, heightField, leftBorder, topBorder, rightBorder, 
 import { arrWall } from './wall.js';
 import { arrStone } from './stone.js';
 import { getBonus } from './bonuses.js';
-import { bombs } from './bomb.js';
+import { bombs, explosions } from './bomb.js';
+import { checkCollision } from './utils.js';
 
 export let bombermen;
 export let livesText;
 export let player = true;
 let bombermenContainer;
-
+let livesContainer;
 
 
 
@@ -44,7 +45,7 @@ export const moveBombermen = () => {
     let move = '';
    
     document.addEventListener('keydown', (e) => {
-        // if(bombermen.destroyed) return;
+        if(bombermen.destroyed) return;
         
         if(e.key === 'ArrowRight' && bombermen.position.x < rightBorder && !arrWall[bombermen.currentIndex + 1] && !arrStone[bombermen.currentIndex + 1] && !bombs[bombermen.currentIndex + 1] && !isMoving) { 
             isMoving = true;
@@ -130,39 +131,45 @@ export const handlePlayerDestroy = (bomb) => {
     //     }
     // }
 
-    for(let i = 1; i <= bombState.bombRadius; i++) {
-        if (Math.floor((bomb.bombIndex + i) / widthField) !== Math.floor(bomb.bombIndex / widthField) || arrWall[bomb.bombIndex + i] || arrStone[bomb.bombIndex + i]) break; 
+    // for(let i = 1; i <= bombState.bombRadius; i++) {
+    //     if (Math.floor((bomb.bombIndex + i) / widthField) !== Math.floor(bomb.bombIndex / widthField) || arrWall[bomb.bombIndex + i] || arrStone[bomb.bombIndex + i]) break; 
 
-        if (bombermen.currentIndex === bomb.bombIndex + i && player) {
-            playerOff();
-        }
-    }
-    for(let i = 1; i <= bombState.bombRadius; i++) {
-        if (Math.floor((bomb.bombIndex - i) / widthField) !== Math.floor(bomb.bombIndex / widthField) || arrWall[bomb.bombIndex - i] || arrStone[bomb.bombIndex - i]) break;
+    //     if (bombermen.currentIndex === bomb.bombIndex + i && player) {
+    //         playerOff();
+    //     }
+    // }
+    // for(let i = 1; i <= bombState.bombRadius; i++) {
+    //     if (Math.floor((bomb.bombIndex - i) / widthField) !== Math.floor(bomb.bombIndex / widthField) || arrWall[bomb.bombIndex - i] || arrStone[bomb.bombIndex - i]) break;
 
-        if(bombermen.currentIndex === bomb.bombIndex - i && player) {
-            playerOff();
-        }
-    }
-    for(let i = 1; i <= bombState.bombRadius; i++){
-        if (arrWall[bomb.bombIndex + widthField * i] || arrStone[bomb.bombIndex + widthField * i]) break;
+    //     if(bombermen.currentIndex === bomb.bombIndex - i && player) {
+    //         playerOff();
+    //     }
+    // }
+    // for(let i = 1; i <= bombState.bombRadius; i++){
+    //     if (arrWall[bomb.bombIndex + widthField * i] || arrStone[bomb.bombIndex + widthField * i]) break;
 
-        if(bombermen.currentIndex === bomb.bombIndex + widthField * i && player) {
-            playerOff();
-        }
-    }
-    for(let i = 1; i <= bombState.bombRadius; i++){
-        if (arrWall[bomb.bombIndex - widthField * i] || arrStone[bomb.bombIndex - widthField * i]) break;
+    //     if(bombermen.currentIndex === bomb.bombIndex + widthField * i && player) {
+    //         playerOff();
+    //     }
+    // }
+    // for(let i = 1; i <= bombState.bombRadius; i++){
+    //     if (arrWall[bomb.bombIndex - widthField * i] || arrStone[bomb.bombIndex - widthField * i]) break;
 
-        if(bombermen.currentIndex === bomb.bombIndex - widthField * i && player) {
-            playerOff();
-        }
-    }
+    //     if(bombermen.currentIndex === bomb.bombIndex - widthField * i && player) {
+    //         playerOff();
+    //     }
+    // }
     
     
-    if(bombermen.currentIndex === bomb.bombIndex && player){
-        playerOff();
-    }
+    // if(bombermen.currentIndex === bomb.bombIndex && player){
+    //     playerOff();
+    // }
+
+    explosions.forEach((explosion) => {
+        if(checkCollision(bombermen, explosion) && player) {
+            playerOff();
+        }
+    })
 }
 
 export const playerOff = () => {
@@ -191,7 +198,7 @@ export const playerOff = () => {
 
 export const playerLives = async () => {
     const livesSprite = await PIXI.Assets.load('assets/sprites/lives.png');
-    const livesContainer = new PIXI.Container();
+    livesContainer = new PIXI.Container();
     const lives = new PIXI.Sprite(livesSprite);
     lives.width = 100;
     lives.height = 100;
@@ -226,4 +233,8 @@ export const startBombermen = () => {
 
 export const clearBombermen = () => {
     bombermenContainer.destroy({children: true});
+}
+
+export const clearPlayerLives = () => {
+    livesContainer.destroy({children: true});
 }

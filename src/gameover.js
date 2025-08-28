@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js';
 import { Input } from '@pixi/ui';
 import { app, createRestartScene, gameState } from './index.js';
-import { scores, scoresData } from './score.js';
+import { addScore, scores, scoresData } from './score.js';
 
 let gameOverContainer;
 
@@ -62,7 +62,7 @@ export const gameOverActive = () => {
 
     gameOverContainer.addChild(gameOverBtn, btnText);
 
-    if(gameState.score >= Object.values(scoresData)[Object.values(scoresData).length - 1]) {
+    if(gameState.score >= Object.values(scoresData)[Object.values(scoresData).length - 1] || Object.values(scoresData).length === 0) {
         inputName();
     }
 
@@ -105,6 +105,7 @@ const inputName = () => {
             gameState.playerName = name;
             input.bg.clear();
             input.bg.roundRect(0, 0, 300, 70, 15).fill({ color: '#0fb7e0ff' });
+            addScore();
         }
     })
 

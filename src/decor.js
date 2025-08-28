@@ -3,12 +3,14 @@ import { app } from './index.js';
 import { sizeRect, widthField } from './field.js';
 import { bombermen } from './bomberman.js';
 
+let decorContainer;
+let decorTicker;
 
 export const createDecor = async () => {
     const decorSprite1 = await PIXI.Assets.load('assets/sprites/joystick.png');
     const decorSprite2 = await PIXI.Assets.load('assets/sprites/supernintendo.png');
 
-    const decorContainer = new PIXI.Container();
+    decorContainer = new PIXI.Container();
     const decor1 = new PIXI.Sprite(decorSprite1);
     const decor2 = new PIXI.Sprite(decorSprite2);
    
@@ -26,11 +28,18 @@ export const createDecor = async () => {
     const offset = 200;
     const decor1PositionY = decor1.position.y;
 
-    app.ticker.add(() => {
+    decorTicker = () => {
         value += stepValue;
         decor1.position.y = decor1PositionY + offset * Math.cos(value);
-    })
+    }
+
+    app.ticker.add(decorTicker);
 
     decorContainer.addChild(decor1, decor2);
     app.stage.addChild(decorContainer);
+}
+
+export const clearDecor = () => {
+    decorContainer.destroy({children: true});
+    app.ticker.remove(decorTicker);
 }

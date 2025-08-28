@@ -207,27 +207,70 @@ export const handleBonusDestroy = (bomb) => {
 }
 
 export const heandleTeleportExplosion = (bomb) => {
+    // for(let i = 1; i <= bombState.bombRadius; i++) {
+    //     if(bomb.bombIndex % widthField !== widthField - 1 && teleports[bomb.bombIndex + i] && !arrWall[bomb.bombIndex + i] && !gameState.teleportActive) {
+    //        setTimeout(() => {
+    //             createSpeedstersFromTeleport(teleportIndex);
+    //        }, 200)
+    //     }
+    //     if(bomb.bombIndex % widthField !== 0 && teleports[bomb.bombIndex - i] && !arrWall[bomb.bombIndex - i] && !gameState.teleportActive) {
+    //         setTimeout(() => {
+    //          createSpeedstersFromTeleport(teleportIndex);
+    //        }, 200)
+    //     }
+    //     if(teleports[bomb.bombIndex + widthField * i] && !arrWall[bomb.bombIndex + widthField * i] && !gameState.teleportActive) {
+    //         setTimeout(() => {
+    //          createSpeedstersFromTeleport(teleportIndex);
+    //        }, 200)    
+    //     }
+    //     if(teleports[bomb.bombIndex - widthField * i] && !arrWall[bomb.bombIndex - widthField * i] && !gameState.teleportActive) {
+    //         setTimeout(() => {
+    //          createSpeedstersFromTeleport(teleportIndex);
+    //        }, 200)     
+    //     }
+    // }
+
     for(let i = 1; i <= bombState.bombRadius; i++) {
-        if(bomb.bombIndex % widthField !== widthField - 1 && teleports[bomb.bombIndex + i] && !arrWall[bomb.bombIndex + i] && !gameState.teleportActive) {
-           setTimeout(() => {
-                createSpeedstersFromTeleport(teleportIndex);
-           }, 200)
-        }
-        if(bomb.bombIndex % widthField !== 0 && teleports[bomb.bombIndex - i] && !arrWall[bomb.bombIndex - i] && !gameState.teleportActive) {
+        if (Math.floor((bomb.bombIndex + i) / widthField) !== Math.floor(bomb.bombIndex / widthField) || arrWall[bomb.bombIndex + i] || arrStone[bomb.bombIndex + i]) break; 
+    
+        if (teleports[bomb.bombIndex + i] && !arrWall[bomb.bombIndex + i] && !gameState.teleportActive) {
             setTimeout(() => {
-             createSpeedstersFromTeleport(teleportIndex);
-           }, 200)
+                createSpeedstersFromTeleport(teleportIndex);
+            }, 200) 
         }
+    }
+    for(let i = 1; i <= bombState.bombRadius; i++) {
+        if (Math.floor((bomb.bombIndex - i) / widthField) !== Math.floor(bomb.bombIndex / widthField) || arrWall[bomb.bombIndex - i] || arrStone[bomb.bombIndex - i]) break;
+
+        if(teleports[bomb.bombIndex - i] && !arrWall[bomb.bombIndex - i] && !gameState.teleportActive) {
+            setTimeout(() => {
+                createSpeedstersFromTeleport(teleportIndex);
+            }, 200) 
+        }
+    }
+    for(let i = 1; i <= bombState.bombRadius; i++){
+        if (arrWall[bomb.bombIndex + widthField * i] || arrStone[bomb.bombIndex + widthField * i]) break;
+
         if(teleports[bomb.bombIndex + widthField * i] && !arrWall[bomb.bombIndex + widthField * i] && !gameState.teleportActive) {
             setTimeout(() => {
-             createSpeedstersFromTeleport(teleportIndex);
-           }, 200)    
+                createSpeedstersFromTeleport(teleportIndex);
+            }, 200) 
         }
+    }
+    for(let i = 1; i <= bombState.bombRadius; i++){
+        if (arrWall[bomb.bombIndex - widthField * i] || arrStone[bomb.bombIndex - widthField * i]) break;
+
         if(teleports[bomb.bombIndex - widthField * i] && !arrWall[bomb.bombIndex - widthField * i] && !gameState.teleportActive) {
             setTimeout(() => {
-             createSpeedstersFromTeleport(teleportIndex);
-           }, 200)     
+                createSpeedstersFromTeleport(teleportIndex);
+            }, 200) 
         }
+    }
+
+    if(teleports[bomb.bombIndex] && !gameState.teleportActive) {
+        setTimeout(() => {
+                createSpeedstersFromTeleport(teleportIndex);
+        }, 200) 
     }
 }
 
