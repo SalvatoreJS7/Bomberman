@@ -64,7 +64,7 @@ const bonusForLevel3 = [bonusMapping.explosionPlus, bonusMapping.bombPlus, bonus
 export const gameState = {
     teleportActive: false,
     startLevel2: false,
-    livesAmount: 1,
+    livesAmount: 5,
     level: 1,
     score: 0,
     playerName: '?',
