@@ -50,7 +50,7 @@ export const winner = () => {
     winnerContainer.y = app.screen.height / 2;
     app.stage.addChild(winnerContainer);
 
-    if(gameState.score >= Object.values(scoresData)[Object.values(scoresData).length - 1] || Object.values(scoresData).length === 0) {
+    if(gameState.score >= Object.values(scoresData)[Object.values(scoresData).length - 1] || Object.values(scoresData).length < 10) {
         inputNameWinner();
     }
 

@@ -62,7 +62,7 @@ export const gameOverActive = () => {
 
     gameOverContainer.addChild(gameOverBtn, btnText);
 
-    if(gameState.score >= Object.values(scoresData)[Object.values(scoresData).length - 1] || Object.values(scoresData).length === 0) {
+    if(gameState.score >= Object.values(scoresData)[Object.values(scoresData).length - 1] || Object.values(scoresData).length < 10) {
         inputName();
     }
 
